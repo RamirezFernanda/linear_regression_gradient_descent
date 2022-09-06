@@ -1,9 +1,10 @@
 """
-El código aun no funciona por lo que 
-pedire una asesoria :c
+El código aun no funciona aun trabajo
+en ello
 """
 
 import random
+import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
@@ -11,8 +12,8 @@ import seaborn as sns
 
 def read_dataset(dataset_path):
     df = pd.read_csv(dataset_path)
-    x = df['Weight']
-    y = df['Length1']
+    x = df[['LotFrontage', 'LotArea']].to_numpy()
+    y = df['SalePrice'].to_numpy()
     return x, y
 
 
@@ -25,18 +26,35 @@ def error(x, y, a, b):
     return error / (2*m)
 
 
-def gradient_descent(x, y, a, b, learning_rate, epochs):
-    pass
+def linear_regression(x, m, b):
+    return (x.dot(m)) + b
 
 
-a = 1
-b = 1
-learning_rate = 0.001
-epochs = 10
+def gradient_descent(x, y, m, b, learning_rate, epochs):
+    predict = linear_regression(x, m, b)
+    cost = (1/x.shape[0]) * (np.sum(((y - predict)**2)))
+    new_cost = np.zeros(cost.shape)
+    for i in range(1, epochs):
+        print(linear_regression(x, m, b))
+        predict = linear_regression(x, m, b)
+        print(linear_regression(x, m, b))
+        error = y - predict
+        if not np.equal(new_cost, cost):
+            deriv_m = (-2/x.shape[0]) * (x.T).dot(error)
+            deriv_b = (-2/x.shape[0]) * np.sum(error)
+            m = learning_rate * deriv_m
+            b = learning_rate * deriv_b
+        print(f'Epoch{i}')
+    return m, b
+
+
+learning_rate = 0.0003
+epochs = 50
 x, y = read_dataset(
-    'linear_regression_gradient_descent\DataSets\Fish.csv')
-
-a, b = gradient_descent(x, y, a, b, learning_rate, epochs)
-print(f'y = {a} + {b}x')
+    'linear_regression_gradient_descent\DataSets\house_train.csv')
+m = np.random.rand((x.shape[1]))
+b = 0.5
+m, b = gradient_descent(x, y, m, b, learning_rate, epochs)
+print(f'y = {m} + {b}x')
 plt.plot(x, y, 'mo')
-plt.show()
+# plt.show()
