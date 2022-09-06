@@ -26,21 +26,13 @@ def error(x, y, a, b):
 
 
 def gradient_descent(x, y, a, b, learning_rate, epochs):
-    n = len(x)
-    for i in range(epochs):
-        y_predicted = a * x + b
-        md = -(2/n)*sum(x*(y-y_predicted))
-        bd = -(2/n)*sum(y-y_predicted)
-        a = a - learning_rate * md
-        b = b - learning_rate * bd
-        print(f'epoch{i}')
-    return a, b
+    pass
 
 
 a = 1
 b = 1
 learning_rate = 0.001
-epochs = 10000
+epochs = 10
 x, y = read_dataset(
     'linear_regression_gradient_descent\DataSets\Fish.csv')
 
