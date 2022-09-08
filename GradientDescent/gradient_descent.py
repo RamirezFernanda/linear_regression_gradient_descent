@@ -17,15 +17,6 @@ def read_dataset(dataset_path):
     return x, y
 
 
-def error(x, y, a, b):
-    m = len(x)
-    error = 0.0
-    for i in range(m):
-        hypothesis = a+b*x[i]
-        error += (y[i] - hypothesis) ** 2
-    return error / (2*m)
-
-
 def linear_regression(x, m, b):
     return (x.dot(m)) + b
 
@@ -38,16 +29,11 @@ def gradient_descent(x, y, m, b, learning_rate, epochs):
         predict = linear_regression(x, m, b)
         cost = (1/x.shape[0]) * (np.sum(((y - predict)**2)))
         error = y - predict
-
         if not np.equal(prev_cost, cost):
             prev_cost = cost
-
             deriv_m = -(2/x.shape[0]) * (x.T).dot(error)
-
             deriv_b = -(2/x.shape[0]) * np.sum(error)
-
             m -= learning_rate * deriv_m
-
             b -= learning_rate * deriv_b
 
         print(f'Epoch{i}')
