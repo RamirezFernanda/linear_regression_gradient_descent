@@ -2,7 +2,7 @@
 El código aun no funciona aun trabajo
 en ello
 """
-
+from sklearn.preprocessing import StandardScaler
 import random
 import numpy as np
 import matplotlib.pyplot as plt
@@ -12,8 +12,12 @@ import seaborn as sns
 
 def read_dataset(dataset_path):
     df = pd.read_csv(dataset_path)
+    x = df[['X2 house age']].to_numpy()
+    y = df['Y house price of unit area'].to_numpy()
+    """ss = StandardScaler()
+    df_transformed = ss.fit_transform(df)
     x = df[['LotFrontage', 'LotArea']].to_numpy()
-    y = df['SalePrice'].to_numpy()
+    y = df['SalePrice'].to_numpy()"""
     return x, y
 
 
@@ -43,7 +47,7 @@ def gradient_descent(x, y, m, b, learning_rate, epochs):
 learning_rate = 0.0003
 epochs = 50
 x, y = read_dataset(
-    'linear_regression_gradient_descent\DataSets\house_train.csv')
+    'DataSets/real_estate.csv')
 m = np.random.rand((x.shape[1]))
 b = 0.5
 
