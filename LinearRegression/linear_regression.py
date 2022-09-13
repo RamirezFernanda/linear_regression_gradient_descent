@@ -46,12 +46,3 @@ print('/------------------------------/')
 print("Coeficiente de determinación (score): %.2f" %
       r2_score(y_test, predictions))
 print('/------------------------------/')
-
-
-"""plt.scatter(X_test, y_test)
-plt.plot(X_test, predictions)
-
-plt.xticks(())
-plt.yticks(())
-
-plt.show()"""
