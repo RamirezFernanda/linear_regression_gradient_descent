@@ -3,7 +3,6 @@ El código aun no funciona aun trabajo
 en ello
 """
 from sklearn.preprocessing import MinMaxScaler
-import random
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -19,7 +18,7 @@ def read_dataset(dataset_path):
         'X2 house age', 'X3 distance to the nearest MRT station',
         'X4 number of convenience stores',
         'X5 latitude', 'X6 longitude', 'Y house price of unit area'])
-    x = df_scaled['X2 house age']
+    x = df_scaled[['X5 latitude', 'X6 longitude']]
     y = df_scaled['Y house price of unit area']
     return x, y
 
@@ -42,21 +41,27 @@ def gradient_descent(x, y, m, b, learning_rate, epochs):
             deriv_b = -(2/x.shape[0]) * np.sum(error)
             m -= learning_rate * deriv_m
             b -= learning_rate * deriv_b
-        #print(f'Epoch{i} Error{error} b{b} m{m}')
+            #print(f'Epoch{i} Error{error} b{b} m{m}')
+        else:
+            break
     return m, b
 
 
-learning_rate = 0.01
+learning_rate = 0.001
 epochs = 1000
 x, y = read_dataset(
-    'DataSets/real_estate.csv')
-m = np.random.rand(x.shape[0])
-b = 0.5
+    '../DataSets/real_estate.csv')
+print(x.shape)
+print(y.shape)
+m = np.zeros(x.shape[1])
+b = 0
 
 m, b = gradient_descent(x, y, m, b, learning_rate, epochs)
 y_final = m + b * x
-print(f'y = {m} + {b}x')
+#print(f'y = {m} + {b}x')
+print(m)
 print(x)
-plt.scatter(x, y)
+print(y)
+"""plt.scatter(x[1], y)
 plt.plot([min(x), max(x)], [min(y_final), max(y_final)])
-plt.show()
+plt.show()"""
