@@ -1,7 +1,3 @@
-"""
-El código aun no funciona aun trabajo
-en ello
-"""
 from sklearn.preprocessing import MinMaxScaler
 import numpy as np
 import matplotlib.pyplot as plt
@@ -47,8 +43,29 @@ def gradient_descent(x, y, m, b, learning_rate, epochs):
     return m, b
 
 
-learning_rate = 0.001
-epochs = 1000
+def train_test(x, y, test_percentage):
+    X_test = []
+    y_test = []
+    X_train = []
+    y_train = []
+    test_size = round(len(x) * test_percentage)
+
+    for i in range(len(x)):
+        if len(X_test) < test_size:
+            X_test.append(x[i])
+            y_test.append(y[i])
+        else:
+            X_train.append(x[i])
+            y_train.append(y[i])
+
+    return X_test, X_train, y_test, y_train
+
+
+X_test, X_train, y_test, y_train = train_test(x, y, 0.2)
+
+
+learning_rate = 0.002
+epochs = 7000
 x, y = read_dataset(
     '../DataSets/real_estate.csv')
 print(x.shape)
@@ -58,10 +75,7 @@ b = 0
 
 m, b = gradient_descent(x, y, m, b, learning_rate, epochs)
 y_final = m + b * x
-#print(f'y = {m} + {b}x')
-print(m)
-print(x)
-print(y)
+print(f'y = {m} + {b}x')
 """plt.scatter(x[1], y)
 plt.plot([min(x), max(x)], [min(y_final), max(y_final)])
 plt.show()"""
