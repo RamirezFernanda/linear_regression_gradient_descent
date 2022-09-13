@@ -4,11 +4,14 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
+from sklearn.metrics import mean_squared_error, r2_score
+import matplotlib.pyplot as plt
 
 
 df = pd.read_csv('../DataSets/real_estate.csv')
 
-X = df.drop(columns=['Y house price of unit area', 'No'], axis=1)
+X = df.drop(columns=['Y house price of unit area',
+            'No'], axis=1)
 y = df['Y house price of unit area']
 
 X_train, X_test, y_train, y_test = train_test_split(
@@ -17,11 +20,38 @@ X_train, X_test, y_train, y_test = train_test_split(
 lr = make_pipeline(StandardScaler(), LinearRegression())
 lr.fit(X_train, y_train)
 
+print('Parametros utiles para el analisis del modelo')
+print('/------------------------------/')
 print(f'Exactitud del modelo: {lr.score(X_test, y_test)}')
+print('/------------------------------/')
 print(f'Exactitud del modelo (train): {lr.score(X_train, y_train)}')
+print('/------------------------------/')
 print(
-    f'm = {lr.steps[1][1].coef_}')
-# print(
-#    f'Parameters for this estimator. = {DecisionTreeClassifier.get_params(lr)}')
+    f'm (coeficientes)= {lr.steps[1][1].coef_}')
+print('/------------------------------/')
 print(
     f'b = {lr.steps[1][1].intercept_}')
+print('/------------------------------/')
+
+
+predictions = lr.predict(X_test)
+pruebas = pd.DataFrame(
+    {'Valor esperado': y_test, 'Valor arrojado': predictions})
+print(f'Predicciones: {pruebas}')
+
+print('/------------------------------/')
+print("Error medio cuadrado: %.2f" %
+      mean_squared_error(y_test, predictions))
+print('/------------------------------/')
+print("Coeficiente de determinación (score): %.2f" %
+      r2_score(y_test, predictions))
+print('/------------------------------/')
+
+
+"""plt.scatter(X_test, y_test)
+plt.plot(X_test, predictions)
+
+plt.xticks(())
+plt.yticks(())
+
+plt.show()"""
