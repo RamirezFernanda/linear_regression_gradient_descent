@@ -20,6 +20,8 @@ X_train, X_test, y_train, y_test = train_test_split(
 lr = make_pipeline(StandardScaler(), LinearRegression())
 lr.fit(X_train, y_train)
 
+predictions = lr.predict(X_test)
+
 print('Parametros utiles para el analisis del modelo')
 print('/------------------------------/')
 print(f'Exactitud del modelo: {lr.score(X_test, y_test)}')
@@ -32,17 +34,17 @@ print('/------------------------------/')
 print(
     f'b = {lr.steps[1][1].intercept_}')
 print('/------------------------------/')
-
-
-predictions = lr.predict(X_test)
-pruebas = pd.DataFrame(
-    {'Valor esperado': y_test, 'Valor arrojado': predictions})
-print(f'Predicciones: {pruebas}')
-
-print('/------------------------------/')
 print("Error medio cuadrado: %.2f" %
       mean_squared_error(y_test, predictions))
 print('/------------------------------/')
 print("Coeficiente de determinación (score): %.2f" %
       r2_score(y_test, predictions))
+print('/------------------------------/')
+print('/------------------------------/')
+print('/------------------------------/')
+
+pruebas = pd.DataFrame(
+    {'Valor esperado': y_test, 'Valor arrojado': predictions})
+print(f'Predicciones: {pruebas}')
+
 print('/------------------------------/')
