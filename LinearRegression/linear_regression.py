@@ -6,6 +6,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
 from sklearn.metrics import mean_squared_error, r2_score
 import matplotlib.pyplot as plt
+from mlxtend.evaluate import bias_variance_decomp
 
 
 df = pd.read_csv('../DataSets/real_estate.csv')
@@ -42,9 +43,23 @@ print("Coeficiente de determinación (score): %.2f" %
 print('/------------------------------/')
 print('/------------------------------/')
 print('/------------------------------/')
-
 pruebas = pd.DataFrame(
     {'Valor esperado': y_test, 'Valor arrojado': predictions})
 print(f'Predicciones: {pruebas}')
-
+print('/------------------------------/')
+print('/------------------------------/')
+print('/------------------------------/')
+X_train = X_train.to_numpy()
+X_test = X_test.to_numpy()
+y_train = y_train.to_numpy()
+y_test = y_test.to_numpy()
+mse, bias, var = bias_variance_decomp(
+    lr, X_train, y_train, X_test, y_test, loss='mse', num_rounds=200, random_seed=123)
+print('MSE de bias_variance lib [pérdida promedio esperada]: %.3f' % mse)
+print('/------------------------------/')
+print('Sesgo promedio: %.3f' % bias)
+print('/------------------------------/')
+print('Varianza promedio: %.3f' % var)
+print('/------------------------------/')
+print('/------------------------------/')
 print('/------------------------------/')
